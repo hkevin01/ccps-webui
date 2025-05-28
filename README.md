@@ -1,3 +1,32 @@
+# clr-webui
+
+Monorepo for the Coastal Change Prediction System.  
+Contains backend (Spring Boot), frontend (React), and deployment scripts.
+
+## Java Standards & Diagnostics
+
+- Uses SLF4J for logging and diagnostics.
+- Apache Commons Lang for helper utilities.
+- Lombok for reducing boilerplate (getters/setters).
+- Javadoc for API documentation (`mvn javadoc:javadoc` in backend).
+- All Java code should be documented with Javadoc comments for public classes and methods.
+
+## Structure
+
+- `backend/` - Spring Boot REST API
+- `frontend/` - React + TypeScript UI
+- `docker/` - Dockerfiles for backend and frontend
+- `logs/` - Output logs from stack scripts
+
+## Usage
+
+See each subdirectory for details.  
+To build and run the full stack:
+
+```bash
+./run-stack.sh
+```
+
 # Coastal Change Prediction System
 
 A full-stack application for predicting and visualizing the likelihood of coastal changes (such as sea-level rise and erosion) using environmental data, climate models, and historical trends. The system features a secure backend (Spring Boot, PostgreSQL), a modern frontend (React, TypeScript, Bootstrap), interactive data visualizations, user authentication with role-based access, and is fully containerized for easy deployment.
