@@ -6,13 +6,13 @@ set -e
 # Allow Ctrl-C to stop docker-compose and exit script gracefully
 trap "echo 'Stopping services...'; exit 0" SIGINT
 
-# Build backend JAR if Maven project exists
-if [ -f backend/pom.xml ]; then
-    echo "Cleaning previous Maven build..."
-    (cd backend && mvn clean)
-    echo "Building backend JAR with Maven..."
-    if ! (cd backend && mvn package); then
-        echo "Maven build failed. Please check the logs for errors."
+# Build backend JAR if Gradle project exists
+if [ -f backend/build.gradle ] || [ -f backend/build.gradle.kts ]; then
+    echo "Cleaning previous Gradle build..."
+    (cd backend && ./gradlew clean)
+    echo "Building backend JAR with Gradle..."
+    if ! (cd backend && ./gradlew build); then
+        echo "Gradle build failed. Please check the logs for errors."
         exit 1
     fi
 fi

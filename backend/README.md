@@ -6,8 +6,8 @@ Spring Boot REST API for coastal change prediction.
 
 ```bash
 cd backend
-mvn clean package
-java -jar target/*.jar
+./gradlew build
+java -jar build/libs/*.jar
 ```
 
 ## API Docs
@@ -16,10 +16,10 @@ Javadoc is generated with:
 
 ```bash
 cd backend
-mvn javadoc:javadoc
+./gradlew javadoc
 ```
 
-Docs output: `target/site/apidocs/index.html`
+Docs output: `build/docs/javadoc/index.html`
 
 ## Diagnostics
 

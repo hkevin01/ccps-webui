@@ -9,7 +9,6 @@ dist/
 *.jar
 *.war
 *.ear
-target/
 *.iml
 
 # IDEs

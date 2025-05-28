@@ -1,0 +1,8 @@
+/home/kevin/Projects/clr-webui/backend/src/main/java/com/clr/model/PredictionResult.java
+/home/kevin/Projects/clr-webui/backend/src/main/java/com/clr/ClrBackendApplication.java
+/home/kevin/Projects/clr-webui/backend/src/main/java/com/clr/service/PredictionService.java
+/home/kevin/Projects/clr-webui/backend/src/main/java/com/clr/model/CoastalData.java
+/home/kevin/Projects/clr-webui/backend/src/main/java/com/clr/ClrWebuiApplication.java
+/home/kevin/Projects/clr-webui/backend/src/main/java/com/clr/controller/CoastController.java
+/home/kevin/Projects/clr-webui/backend/src/main/java/com/clr/repository/CoastalDataRepository.java
+/home/kevin/Projects/clr-webui/backend/src/main/java/com/clr/repository/PredictionResultRepository.java

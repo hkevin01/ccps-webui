@@ -8,7 +8,7 @@ Contains backend (Spring Boot), frontend (React), and deployment scripts.
 - Uses SLF4J for logging and diagnostics.
 - Apache Commons Lang for helper utilities.
 - Lombok for reducing boilerplate (getters/setters).
-- Javadoc for API documentation (`mvn javadoc:javadoc` in backend).
+- Javadoc for API documentation (`./gradlew javadoc` in backend).
 - All Java code should be documented with Javadoc comments for public classes and methods.
 
 ## Structure
@@ -33,7 +33,7 @@ A full-stack application for predicting and visualizing the likelihood of coasta
 
 ## Backend
 - Java 17, Spring Boot, JPA, PostgreSQL
-- Run: `mvn clean package` in `backend/`, then use Docker or run the JAR
+- Run: `./gradlew clean build` in `backend/`, then use Docker or run the JAR
 
 ## Frontend
 - React + TypeScript + Bootstrap

@@ -1,0 +1,4 @@
+com/clr/service/PredictionServiceTest.class
+com/clr/repository/CoastalDataRepositoryTest.class
+com/clr/controller/CoastControllerTest.class
+com/clr/ClrBackendApplicationTests.class
