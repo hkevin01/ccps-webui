@@ -1,0 +1,29 @@
+# Node
+node_modules/
+build/
+dist/
+.env
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+*.iml
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Docker
+postgres_data/

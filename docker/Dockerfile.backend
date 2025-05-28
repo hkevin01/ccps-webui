@@ -1,0 +1,33 @@
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY backend/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Make sure to build the backend JAR before running Docker:
+#   mvn clean package -f backend/pom.xml
+# This will create backend/target/*.jar required for the COPY step.
+# If you see "COPY backend/target/*.jar app.jar" error, it is usually because:
+# 1. The JAR file does not exist (run 'mvn clean package -f backend/pom.xml' first).
+# 2. The Docker build context is the project root, so 'backend/target/*.jar' must exist and be readable.
+# 3. Permissions: Ensure the JAR file is readable (e.g., 'chmod 644 backend/target/*.jar').
+
+# Example fix:
+#   mvn clean package -f backend/pom.xml
+#   chmod 644 backend/target/*.jar
+# Then re-run your docker-compose or docker build command.
+
+# The error "lstat /backend/target: no such file or directory" means the backend JAR was not built.
+# Solution:
+# 1. From your project root, run:
+#      mvn clean package -f backend/pom.xml
+#    This will generate backend/target/*.jar.
+# 2. Ensure the JAR file is readable:
+#      chmod 644 backend/target/*.jar
+# 3. Then re-run your script or docker compose up --build.
+
+# No *.jar files were found in your workspace, and no pom.xml was found.
+# Please ensure your Maven project is set up correctly:
+# 1. There should be a backend/pom.xml file.
+# 2. Run 'mvn clean package -f backend/pom.xml' from the project root.
+# 3. This will generate backend/target/*.jar, which is required for the Docker build.
