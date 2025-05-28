@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(classes = com.clr.ClrBackendApplication.class)
 class CoastalDataRepositoryTest {
 
     @Autowired

@@ -6,6 +6,7 @@ import com.clr.model.PredictionResult;
 import com.clr.service.PredictionService;
 import com.clr.repository.CoastalDataRepository;
 import com.clr.repository.PredictionResultRepository;
+import com.clr.service.PredictionService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(classes = ClrBackendApplication.class)
+@SpringBootTest(classes = com.clr.ClrBackendApplication.class)
 class CoastControllerTest {
 
     @Autowired

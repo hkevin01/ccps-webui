@@ -3,7 +3,7 @@ package com.clr;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = ClrBackendApplication.class)
+@SpringBootTest(classes = com.clr.ClrBackendApplication.class)
 public class ClrBackendApplicationTests {
 
     @Test

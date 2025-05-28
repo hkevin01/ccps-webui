@@ -2,6 +2,7 @@ package com.clr.service;
 
 import com.clr.model.CoastalData;
 import com.clr.model.PredictionResult;
+import com.clr.service.PredictionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
