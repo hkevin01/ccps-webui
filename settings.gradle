@@ -1,0 +1,2 @@
+rootProject.name = 'clr-webui'
+include 'backend'

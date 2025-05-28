@@ -131,3 +131,28 @@ volumes:
 - Developer setup and deployment guides.
 
 ---
+
+## Build and Run
+
+### Backend
+
+```bash
+cd backend
+./gradlew build
+./gradlew bootRun
+```
+
+### Full Stack
+
+Use the provided script:
+
+```bash
+./scripts/run-stack.sh
+```
+
+### Running Tests
+
+```bash
+cd backend
+./gradlew test
+```

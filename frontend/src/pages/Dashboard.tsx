@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { fetchCoastalData, predictCoastalChange } from '../services/api';
 import { CoastalDataTable } from '../components/CoastalDataTable';
 import { PredictionForm } from '../components/PredictionForm';

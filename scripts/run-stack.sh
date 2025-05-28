@@ -21,8 +21,29 @@ fi
 if [ -f frontend/package.json ]; then
     echo "Installing frontend dependencies..."
     (cd frontend && npm install)
+    echo "Checking for frontend/public/index.html..."
+    if [ ! -f frontend/public/index.html ]; then
+        echo "Error: 'frontend/public/index.html' is missing. Create this file to allow the React build to succeed."
+        exit 1
+    fi
+    # Check for required React dependencies
+    if ! grep -q '"react-router-dom"' frontend/package.json; then
+        echo "Adding 'react-router-dom@6' to frontend dependencies (compatible with Node 18)..."
+        (cd frontend && npm install react-router-dom@6)
+    fi
+    # Check for react-hook-form if referenced in code
+    if grep -rq "react-hook-form" frontend/src; then
+        if ! grep -q '"react-hook-form"' frontend/package.json; then
+            echo "Adding 'react-hook-form' to frontend dependencies..."
+            (cd frontend && npm install react-hook-form)
+        fi
+    fi
     echo "Building frontend..."
-    (cd frontend && npm run build)
+    if ! (cd frontend && npm run build); then
+        echo "Frontend build failed. Check that 'frontend/public/index.html' exists and your React app is set up correctly."
+        echo "If you see 'Module not found: Error: Can't resolve ...', ensure all required dependencies are listed in package.json and installed."
+        exit 1
+    fi
 fi
 
 # Check if docker-compose or docker compose is installed
@@ -108,6 +129,11 @@ echo "Validating environment variables for database connection..."
 if [ -z "$SPRING_DATASOURCE_URL" ] || [ -z "$SPRING_DATASOURCE_USERNAME" ] || [ -z "$SPRING_DATASOURCE_PASSWORD" ]; then
     echo "Error: Missing database connection environment variables."
     echo "Ensure SPRING_DATASOURCE_URL, SPRING_DATASOURCE_USERNAME, and SPRING_DATASOURCE_PASSWORD are set."
+    echo "If running with Docker Compose, these are set in docker-compose.yml for the backend service."
+    echo "If running locally, export them before running this script, e.g.:"
+    echo "  export SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/clrdb"
+    echo "  export SPRING_DATASOURCE_USERNAME=clruser"
+    echo "  export SPRING_DATASOURCE_PASSWORD=clrpass"
     exit 1
 fi
 echo "Database environment variables validation passed."
