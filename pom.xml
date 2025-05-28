@@ -63,16 +63,15 @@
 
         <!-- MySQL Database Driver -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.33</version>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+            <version>8.3.0</version>
         </dependency>
 
         <!-- Lombok for reducing boilerplate code -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.32</version>
             <scope>provided</scope>
         </dependency>
 
@@ -89,6 +88,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Check for duplicate slf4j-api dependencies -->
+        <!-- If you need to explicitly manage slf4j-api, add it only once as shown below: -->
+        <!--
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.13</version>
+        </dependency>
+        -->
     </dependencies>
 
     <build>
