@@ -1,19 +1,33 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx"
+    "target": "es5", // Compatible with older browsers; consider "es6" for modern projects
+    "lib": ["dom", "dom.iterable", "esnext"], // Ensure modern features and DOM APIs are included
+    "allowJs": true, // Allow using JavaScript files in the project
+    "skipLibCheck": true, // Skip type-checking of declaration files for faster builds
+    "esModuleInterop": true, // Enable better interop with CommonJS modules
+    "allowSyntheticDefaultImports": true, // Allows default imports from modules without default exports
+    "strict": true, // Enable all strict type-checking options
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing in file imports
+    "noFallthroughCasesInSwitch": true, // Prevent fallthrough cases in switch statements
+    "module": "esnext", // Use ESNext module syntax
+    "moduleResolution": "node", // Resolve modules in the same way Node.js does
+    "resolveJsonModule": true, // Allow importing JSON files
+    "isolatedModules": true, // Ensure each file can be transpiled independently
+    "jsx": "react-jsx", // Use React 17+ JSX runtime (automatic imports for JSX)
+    "baseUrl": "./", // Base path for resolving non-relative imports
+    "paths": {
+      "@components/*": ["src/components/*"], // Add shortcut for importing components
+      "@utils/*": ["src/utils/*"], // Add shortcut for importing utilities
+      "@styles/*": ["src/styles/*"] // Add shortcut for importing styles
+    },
+    "outDir": "./dist", // Output folder for compiled files
+    "noImplicitAny": true, // Raise errors on variables with an implicit `any` type
+    "strictNullChecks": true, // Ensure strict handling of nullable values
+    "noUnusedLocals": true, // Error on unused local variables
+    "noUnusedParameters": true, // Error on unused function parameters
+    "noImplicitReturns": true, // Error if not all code paths return a value
+    "noImplicitThis": true // Raise error when `this` is of type `any`
   },
-  "include": ["src"]
+  "include": ["src"], // Include only files in the `src` directory
+  "exclude": ["node_modules", "dist"] // Exclude unnecessary folders
 }

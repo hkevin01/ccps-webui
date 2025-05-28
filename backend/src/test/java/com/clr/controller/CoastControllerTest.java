@@ -1,5 +1,6 @@
 package com.clr.controller;
 
+import com.clr.ClrBackendApplication;
 import com.clr.model.CoastalData;
 import com.clr.model.PredictionResult;
 import com.clr.service.PredictionService;
@@ -21,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@SpringBootTest(classes = ClrBackendApplication.class)
 class CoastControllerTest {
 
     @Autowired

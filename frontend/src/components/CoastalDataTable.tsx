@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -25,31 +25,35 @@ type Props = {
   data: CoastalData[];
 };
 
-export const CoastalDataTable: React.FC<Props> = ({ data }) => {
+export const CoastalDataTable: React.FC<Props> = ({ data }: Props) => {
   // Filter state
   const [regionFilter, setRegionFilter] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
 
-  // Get unique regions for filter dropdown
-  const regions = Array.from(new Set(data.map(row => row.region)));
+  // Memoize regions for performance
+  const regions = useMemo(() => Array.from(new Set(data.map((row: CoastalData) => row.region))), [data]);
 
   // Filtering logic
-  const filteredData = data.filter((row: CoastalData) => {
-    const regionMatch = regionFilter ? row.region === regionFilter : true;
-    const dateMatch =
-      (!dateFrom || row.date >= dateFrom) &&
-      (!dateTo || row.date <= dateTo);
-    return regionMatch && dateMatch;
-  });
+  const filteredData = useMemo(() => {
+    return data.filter((row: CoastalData) => {
+      const regionMatch = regionFilter ? row.region === regionFilter : true;
+      const dateMatch =
+        (!dateFrom || row.date >= dateFrom) &&
+        (!dateTo || row.date <= dateTo);
+      return regionMatch && dateMatch;
+    });
+  }, [data, regionFilter, dateFrom, dateTo]);
 
   // Prepare data for charts
-  const sortedData = [...filteredData].sort((a: CoastalData, b: CoastalData) => a.date.localeCompare(b.date));
+  const sortedData = useMemo(
+    () => [...filteredData].sort((a, b) => a.date.localeCompare(b.date)),
+    [filteredData]
+  );
   const labels = sortedData.map((row: CoastalData) => row.date);
   const seaLevels = sortedData.map((row: CoastalData) => row.seaLevel);
   const erosionRates = sortedData.map((row: CoastalData) => row.erosionRate);
   const predictionLikelihoods = sortedData.map((row: CoastalData) =>
-    // Example: simple likelihood formula for visualization
     Math.max(
       0,
       Math.min(
@@ -79,7 +83,7 @@ export const CoastalDataTable: React.FC<Props> = ({ data }) => {
             <select
               className="form-select"
               value={regionFilter}
-              onChange={e => setRegionFilter(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setRegionFilter(e.target.value)}
             >
               <option value="">All</option>
               {regions.map(region => (
@@ -202,7 +206,7 @@ export const CoastalDataTable: React.FC<Props> = ({ data }) => {
                   </td>
                 </tr>
               ) : (
-                filteredData.map((row: CoastalData) => (
+                filteredData.map(row => (
                   <tr key={row.id}>
                     <td>{row.region}</td>
                     <td>{row.date}</td>

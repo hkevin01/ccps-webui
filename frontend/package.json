@@ -14,5 +14,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.6"
   }
 }
