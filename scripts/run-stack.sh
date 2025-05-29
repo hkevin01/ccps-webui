@@ -3,17 +3,45 @@
 
 set -e
 
+# Default environment variables for local development if not set
+export SPRING_DATASOURCE_URL="${SPRING_DATASOURCE_URL:-jdbc:mysql://localhost:3306/clrdb}"
+export SPRING_DATASOURCE_USERNAME="${SPRING_DATASOURCE_USERNAME:-clruser}"
+export SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD:-clrpass}"
+
 # Allow Ctrl-C to stop docker-compose and exit script gracefully
 trap "echo 'Stopping services...'; exit 0" SIGINT
 
-# Build backend JAR if Gradle project exists
-if [ -f backend/build.gradle ] || [ -f backend/build.gradle.kts ]; then
-    echo "Cleaning previous Gradle build..."
-    (cd backend && ./gradlew clean)
-    echo "Building backend JAR with Gradle..."
-    if ! (cd backend && ./gradlew build); then
+# Build all Gradle projects (including backend) from the root
+if [ -f build.gradle ] || [ -f build.gradle.kts ]; then
+    echo "Cleaning previous Gradle build (root)..."
+    if [ ! -x ./gradlew ]; then
+        echo "Making gradlew executable..."
+        chmod +x ./gradlew
+    fi
+    ./gradlew clean
+    echo "Building all Gradle projects (root)..."
+    if ! ./gradlew build; then
         echo "Gradle build failed. Please check the logs for errors."
         exit 1
+    fi
+fi
+
+# Ensure backend JAR exists for Docker build, or skip check if not needed
+BACKEND_JAR_PATH="backend/build/libs"
+JAR_NEEDED=true
+
+# Check if Dockerfile.backend expects a JAR
+if grep -q 'COPY backend/build/libs/.*\.jar' docker/Dockerfile.backend 2>/dev/null; then
+    JAR_NEEDED=true
+else
+    JAR_NEEDED=false
+fi
+
+if [ "$JAR_NEEDED" = true ]; then
+    if ! ls "$BACKEND_JAR_PATH"/*.jar 1> /dev/null 2>&1; then
+        echo "Warning: No backend JAR found in $BACKEND_JAR_PATH. The Docker build may fail if it expects a JAR."
+        echo "Check your backend/build.gradle for the 'bootJar' or 'jar' task."
+        # Continue anyway, do not exit
     fi
 fi
 
@@ -134,34 +162,59 @@ if [ -z "$SPRING_DATASOURCE_URL" ] || [ -z "$SPRING_DATASOURCE_USERNAME" ] || [ 
     echo "  export SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/clrdb"
     echo "  export SPRING_DATASOURCE_USERNAME=clruser"
     echo "  export SPRING_DATASOURCE_PASSWORD=clrpass"
+    echo ""
+    echo "To run with default local values, you can use:"
+    echo "  SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/clrdb \\"
+    echo "  SPRING_DATASOURCE_USERNAME=clruser \\"
+    echo "  SPRING_DATASOURCE_PASSWORD=clrpass \\"
+    echo "  ./scripts/run-stack.sh"
     exit 1
 fi
 echo "Database environment variables validation passed."
 
-# Start Docker Compose services
-echo "Starting Docker Compose services..."
-if ! $COMPOSE_CMD up --build | tee "$LOG_FILE"; then
-    echo "Docker Compose failed to start services. Check the logs at $LOG_FILE or run 'docker-compose logs' for more details."
+# Start Docker Compose services (backend, frontend, and database)
+echo "Starting all services (backend, frontend, database) using Docker Compose..."
+if ! $COMPOSE_CMD up --build -d; then
+    echo "Docker Compose failed to start services. Check the logs or run 'docker-compose logs' for more details."
     exit 1
 fi
 
-# Health checks
-echo "Checking backend health..."
-if ! curl -s http://localhost:8080/actuator/health | grep '"status":"UP"' > /dev/null; then
-    echo "Backend health check failed. Ensure the backend service is running correctly."
-    exit 1
-fi
-echo "Backend is healthy."
+# Wait for backend to be healthy
+echo "Waiting for backend to be healthy..."
+for i in {1..30}; do
+    if curl -s http://localhost:8080/actuator/health | grep -q '"status":"UP"'; then
+        echo "Backend is healthy."
+        break
+    fi
+    sleep 2
+    echo -n "."
+done
 
-echo "Checking frontend health..."
-if ! curl -s http://localhost:3000 > /dev/null; then
-    echo "Frontend health check failed. Ensure the frontend service is running correctly."
-    exit 1
-fi
-echo "Frontend is healthy."
+# Wait for frontend to be available
+echo "Waiting for frontend to be available..."
+for i in {1..30}; do
+    if curl -s http://localhost:3000 > /dev/null; then
+        echo "Frontend is healthy."
+        break
+    fi
+    sleep 2
+    echo -n "."
+done
 
 echo ""
-echo "If you encounter issues, check the following:"
-echo "1. Backend build logs: backend/target/surefire-reports/"
-echo "2. Docker logs: $LOG_FILE"
-echo "3. Database connection: Ensure MySQL is running and accessible."
+echo "------------------------------------------------------------"
+echo "All services are running in Docker Compose."
+echo "Backend:   http://localhost:8080"
+echo "Frontend:  http://localhost:3000"
+echo "Database:  MySQL on localhost:3306 (user: clruser, pass: clrpass, db: clrdb)"
+echo "------------------------------------------------------------"
+echo ""
+
+# Open frontend in Firefox (if available)
+if command -v firefox &> /dev/null; then
+    echo "Opening frontend in Firefox..."
+    firefox http://localhost:3000 &
+fi
+
+echo "To stop all services, run: $COMPOSE_CMD down"
+wait

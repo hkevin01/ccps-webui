@@ -1,6 +1,7 @@
 package com.clr;
 
 // This class is intentionally left as a placeholder to avoid multiple @SpringBootApplication conflicts.
+// Do NOT annotate with @SpringBootApplication.
 // If you need to add web UI-specific configuration, use @Configuration instead of @SpringBootApplication.
 // Example:
 //

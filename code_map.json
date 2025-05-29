@@ -1,0 +1,147 @@
+{
+  "project": "clr-webui",
+  "description": "Monorepo for the Coastal Change Prediction System. Contains backend (Spring Boot), frontend (React), and deployment scripts.",
+  "structure": {
+    "backend": {
+      "type": "Spring Boot REST API",
+      "language": "Java 17",
+      "build": "Gradle (managed from root)",
+      "main_entry": "com.clr.ClrBackendApplication",
+      "src": "backend/src/main/java",
+      "resources": "backend/src/main/resources",
+      "test": "backend/src/test/java",
+      "test_resources": "backend/src/test/resources",
+      "dependencies": [
+        "Spring Boot Starter",
+        "Spring Boot Starter Web",
+        "Spring Boot Starter Security",
+        "Spring Boot Starter Data JPA",
+        "PostgreSQL Driver",
+        "Lombok",
+        "JUnit",
+        "H2 (test only)"
+      ],
+      "purpose": "Provides REST API endpoints for coastal data and prediction, handles business logic, persistence, and security.",
+      "key_files": {
+        "ClrBackendApplication.java": "Spring Boot main application entry point",
+        "controller/CoastController.java": "REST endpoints for coastal data and predictions",
+        "model/CoastalData.java": "JPA entity for coastal data",
+        "model/PredictionResult.java": "JPA entity for prediction results",
+        "repository/CoastalDataRepository.java": "Spring Data repository for CoastalData",
+        "repository/PredictionResultRepository.java": "Spring Data repository for PredictionResult",
+        "service/PredictionService.java": "Business logic for predictions"
+      },
+      "relationships": {
+        "controller->service": "CoastController uses PredictionService",
+        "controller->repository": "CoastController uses repositories for data access",
+        "service->repository": "PredictionService may use repositories for persistence"
+      }
+    },
+    "frontend": {
+      "type": "React + TypeScript UI",
+      "language": "TypeScript, JavaScript",
+      "build": "npm (react-scripts)",
+      "src": "frontend/src",
+      "public": "frontend/public",
+      "dependencies": [
+        "react",
+        "react-dom",
+        "react-router-dom",
+        "react-hook-form",
+        "chart.js",
+        "react-chartjs-2",
+        "bootstrap",
+        "@react-google-maps/api",
+        "axios"
+      ],
+      "purpose": "Provides interactive dashboard, data visualization, Google Maps integration, and user forms for predictions.",
+      "key_files": {
+        "src/pages/Dashboard.tsx": "Main dashboard page with Google Maps and data table",
+        "src/components/CoastalDataTable.tsx": "Displays coastal data and charts",
+        "src/components/PredictionForm.tsx": "Form for submitting prediction requests",
+        "src/services/api.ts": "Handles API calls to backend"
+      },
+      "relationships": {
+        "Dashboard->CoastalDataTable": "Dashboard renders data table",
+        "Dashboard->PredictionForm": "Dashboard renders prediction form",
+        "PredictionForm->api": "PredictionForm submits data to backend API"
+      }
+    },
+    "docker": {
+      "type": "Docker deployment",
+      "files": [
+        "docker-compose.yml",
+        "docker/Dockerfile.backend",
+        "docker/Dockerfile.frontend"
+      ],
+      "purpose": "Defines multi-container setup for backend, frontend, and database (PostgreSQL or MySQL).",
+      "relationships": {
+        "docker-compose.yml": "Orchestrates backend, frontend, and database containers",
+        "Dockerfile.backend": "Builds backend Spring Boot JAR into container",
+        "Dockerfile.frontend": "Builds React app into static server container"
+      }
+    },
+    "scripts": {
+      "type": "Utility scripts",
+      "files": [
+        "scripts/run-stack.sh",
+        "scripts/install-lombok.sh",
+        "scripts/fix-java-build-env.sh"
+      ],
+      "purpose": "Automate build, run, and environment setup for local development and CI/CD."
+    },
+    "root": {
+      "build": [
+        "build.gradle",
+        "settings.gradle",
+        "gradlew",
+        "gradlew.bat",
+        "gradle/wrapper/"
+      ],
+      "purpose": "Root Gradle configuration and wrapper for building all modules."
+    },
+    "docs": {
+      "type": "Documentation",
+      "files": [
+        "README.md",
+        "backend/README.md",
+        "frontend/README.md",
+        "docs/README.md",
+        "docs/gradle-vs-maven.md",
+        "docs/react.md"
+      ],
+      "purpose": "Project, module, and developer documentation."
+    }
+  },
+  "dependencies": {
+    "backend": [
+      "Spring Boot",
+      "Spring Security",
+      "Spring Data JPA",
+      "PostgreSQL",
+      "Lombok",
+      "JUnit",
+      "H2 (test)"
+    ],
+    "frontend": [
+      "React",
+      "React Router",
+      "React Hook Form",
+      "Chart.js",
+      "Bootstrap",
+      "Google Maps API",
+      "Axios"
+    ],
+    "docker": [
+      "openjdk:17-jdk-slim",
+      "node:alpine",
+      "postgres:13",
+      "mysql:8.0"
+    ]
+  },
+  "relationships": [
+    "Frontend calls backend REST API endpoints for data and predictions",
+    "Backend persists data to database (PostgreSQL/MySQL)",
+    "Docker Compose orchestrates all services for local/dev/prod"
+  ]
+}
