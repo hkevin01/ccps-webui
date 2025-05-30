@@ -27,13 +27,24 @@ To build and run the full stack:
 ./run-stack.sh
 ```
 
+## Building with Gradle
+
+From the project root, run:
+
+```bash
+./gradlew clean build
+```
+
+- This will build all modules (including the backend) and produce the backend JAR at `backend/build/libs/app.jar`.
+- If you are on Windows, use `gradlew.bat clean build`.
+
 # Coastal Change Prediction System
 
 A full-stack application for predicting and visualizing the likelihood of coastal changes (such as sea-level rise and erosion) using environmental data, climate models, and historical trends. The system features a secure backend (Spring Boot, PostgreSQL), a modern frontend (React, TypeScript, Bootstrap), interactive data visualizations, user authentication with role-based access, and is fully containerized for easy deployment.
 
 ## Backend
 - Java 17, Spring Boot, JPA, PostgreSQL
-- Run: `./gradlew clean build` in `backend/`, then use Docker or run the JAR
+- Run: `./gradlew clean build` from the **project root** (not inside `backend/`), then use Docker or run the JAR from `backend/build/libs/app.jar`
 
 ## Frontend
 - React + TypeScript + Bootstrap
@@ -48,53 +59,17 @@ A full-stack application for predicting and visualizing the likelihood of coasta
 - See `docker/` for Dockerfiles.
 
 ### Docker Compose
-To run the full stack (backend, frontend, and PostgreSQL) together, create a `docker-compose.yml` in the project root:
+To run the full stack (backend, frontend, and PostgreSQL) together, use the provided `docker-compose.yml` in the project root:
 
-```yaml
-version: '3.8'
-services:
-  postgres:
-    image: postgres:13
-    container_name: postgres
-    environment:
-      POSTGRES_USER: clruser
-      POSTGRES_PASSWORD: clrpass
-      POSTGRES_DB: clrdb
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  backend:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.backend
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/clrdb
-      SPRING_DATASOURCE_USERNAME: clruser
-      SPRING_DATASOURCE_PASSWORD: clrpass
-    depends_on:
-      - postgres
-
-  frontend:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile.frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
-
-volumes:
-  postgres_data:
+```bash
+./scripts/run-stack.sh
 ```
 
-- Build and run everything:
-  ```bash
-  docker-compose up --build
-  ```
+Or, to run manually:
+
+```bash
+docker-compose up --build
+```
 
 ## Features
 - View and filter coastal data

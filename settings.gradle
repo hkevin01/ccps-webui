@@ -1,2 +1,28 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 rootProject.name = 'clr-webui'
+
+// Explicitly define the backend project and its location
 include 'backend'
+project(':backend').projectDir = file('backend')
+
+toolchainManagement {
+    jvm {
+        javaRepositories {
+            mavenCentral()
+            // Add others if needed
+        }
+    }
+}

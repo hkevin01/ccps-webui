@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 
 type Props = {
   onPredict: (data: any) => void;
+  isLoading?: boolean; // Add isLoading prop as optional
 };
 
 type FormValues = {
@@ -13,7 +14,7 @@ type FormValues = {
   precipitation: number;
 };
 
-export const PredictionForm: React.FC<Props> = ({ onPredict }) => {
+export const PredictionForm: React.FC<Props> = ({ onPredict, isLoading = false }) => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>();
   const [regions, setRegions] = useState<string[]>([]);
 
@@ -108,8 +109,15 @@ export const PredictionForm: React.FC<Props> = ({ onPredict }) => {
         {errors.precipitation && <div className="invalid-feedback">{errors.precipitation.message}</div>}
       </div>
       <div className="col-md-4 d-flex align-items-end">
-        <button type="submit" className="btn btn-primary w-100">
-          Predict
+        <button type="submit" className="btn btn-primary w-100" disabled={isLoading}>
+          {isLoading ? (
+            <>
+              <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Predicting...
+            </>
+          ) : (
+            'Predict'
+          )}
         </button>
       </div>
       <div className="col-md-4 d-flex align-items-end">

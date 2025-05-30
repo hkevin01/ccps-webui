@@ -1,8 +1,0 @@
-com/clr/service/PredictionService.class
-com/clr/repository/CoastalDataRepository.class
-com/clr/controller/CoastController.class
-com/clr/repository/PredictionResultRepository.class
-com/clr/model/PredictionResult.class
-com/clr/ClrWebuiApplication.class
-com/clr/model/CoastalData.class
-com/clr/ClrBackendApplication.class

@@ -19,3 +19,5 @@
 # It will invoke Gradle for the whole project (including backend as a subproject).
 # Do NOT call or reference backend/gradlew from the root gradlew.
 # Instead, delete backend/gradlew and use only the root gradlew for all builds.
+# Do NOT call or reference backend/gradlew from the root gradlew.
+# Instead, delete backend/gradlew and use only the root gradlew for all builds.

@@ -1,33 +1,59 @@
 FROM openjdk:17-jdk-slim
+
+# Install curl for healthcheck
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set the working directory inside the container
 WORKDIR /app
-COPY backend/build/libs/*.jar app.jar
+
+# Copy the Gradle build output (JAR file) into the container
+COPY backend/build/libs/app.jar app.jar
+
+# Create a health check script with improved reliability
+RUN echo '#!/bin/sh\n\
+    set -e\n\
+    HEALTH_URL="http://localhost:8080/actuator/health"\n\
+    MAX_RETRIES=3\n\
+    RETRY_COUNT=0\n\
+    \n\
+    while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do\n\
+    RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" $HEALTH_URL || echo "000")\n\
+    if [ "$RESPONSE" = "200" ]; then\n\
+    exit 0\n\
+    fi\n\
+    echo "Health check failed with status $RESPONSE, retrying..."\n\
+    RETRY_COUNT=$((RETRY_COUNT+1))\n\
+    sleep 2\n\
+    done\n\
+    \n\
+    echo "Health check failed after $MAX_RETRIES attempts"\n\
+    exit 1' > /healthcheck.sh && \
+    chmod +x /healthcheck.sh
+
+# Add JAVA_TOOL_OPTIONS for better performance in containers
+ENV JAVA_TOOL_OPTIONS="-Xmx512m -XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
+
+# Add a simple wait script to ensure database is ready
+RUN echo '#!/bin/sh\n\
+    java -jar app.jar' > /entrypoint.sh && \
+    chmod +x /entrypoint.sh
+
+# Environment variables with defaults
+ENV SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/clrdb
+ENV SPRING_DATASOURCE_USERNAME=clruser
+ENV SPRING_DATASOURCE_PASSWORD=clrpass
+ENV SPRING_PROFILES_ACTIVE=docker
+
+# Expose port 8080 to the outside world
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
 
-# Make sure to build the backend JAR before running Docker:
-#   mvn clean package -f backend/pom.xml
-# This will create backend/target/*.jar required for the COPY step.
-# If you see "COPY backend/target/*.jar app.jar" error, it is usually because:
-# 1. The JAR file does not exist (run 'mvn clean package -f backend/pom.xml' first).
-# 2. The Docker build context is the project root, so 'backend/target/*.jar' must exist and be readable.
-# 3. Permissions: Ensure the JAR file is readable (e.g., 'chmod 644 backend/target/*.jar').
+# Add a HEALTHCHECK instruction
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 CMD /healthcheck.sh
 
-# Example fix:
-#   mvn clean package -f backend/pom.xml
-#   chmod 644 backend/target/*.jar
-# Then re-run your docker-compose or docker build command.
+# Set the command to run the application with a wait for the database
+ENTRYPOINT ["/entrypoint.sh"]
 
-# The error "lstat /backend/target: no such file or directory" means the backend JAR was not built.
-# Solution:
-# 1. From your project root, run:
-#      mvn clean package -f backend/pom.xml
-#    This will generate backend/target/*.jar.
-# 2. Ensure the JAR file is readable:
-#      chmod 644 backend/target/*.jar
-# 3. Then re-run your script or docker compose up --build.
-
-# No *.jar files were found in your workspace, and no pom.xml was found.
-# Please ensure your Maven project is set up correctly:
-# 1. There should be a backend/pom.xml file.
-# 2. Run 'mvn clean package -f backend/pom.xml' from the project root.
-# 3. This will generate backend/target/*.jar, which is required for the Docker build.
+# The backend Dockerfile expects a JAR at backend/build/libs/app.jar.
+# Ensure your Gradle build produces this file.

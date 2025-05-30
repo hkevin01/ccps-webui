@@ -5,7 +5,7 @@
     "backend": {
       "type": "Spring Boot REST API",
       "language": "Java 17",
-      "build": "Gradle (managed from root)",
+      "build": "Gradle (managed from root, produces backend/build/libs/app.jar for Docker; run './gradlew clean :backend:bootJar' to ensure app.jar is built; the backend Dockerfile expects a JAR at backend/build/libs/app.jar)",
       "main_entry": "com.clr.ClrBackendApplication",
       "src": "backend/src/main/java",
       "resources": "backend/src/main/resources",
@@ -74,7 +74,7 @@
         "docker/Dockerfile.backend",
         "docker/Dockerfile.frontend"
       ],
-      "purpose": "Defines multi-container setup for backend, frontend, and database (PostgreSQL or MySQL).",
+      "purpose": "Defines multi-container setup for backend, frontend, and database (PostgreSQL or MySQL). The backend Dockerfile expects a JAR at backend/build/libs/app.jar.",
       "relationships": {
         "docker-compose.yml": "Orchestrates backend, frontend, and database containers",
         "Dockerfile.backend": "Builds backend Spring Boot JAR into container",
