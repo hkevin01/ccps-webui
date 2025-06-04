@@ -5,10 +5,13 @@ WORKDIR /app
 # Copy package files first for better layer caching
 COPY frontend/package.json ./
 
-# Install dependencies with specific versions that are compatible with Node 18
+# Install dependencies
 RUN npm install && \
     npm install --save react-router-dom@6.20.1 chart.js@4.4.1 react-chartjs-2@5.2.0 && \
     npm install --save ol@7.5.1 ol-layerswitcher@4.1.1 proj4@2.9.2
+
+# Configure API endpoint to explicitly use the host IP instead of container networking
+RUN echo "REACT_APP_API_URL=http://localhost:8080/api" > .env
 
 # Copy source code after dependencies are installed
 COPY frontend/src ./src
@@ -23,42 +26,28 @@ RUN mkdir -p src/styles && \
     .map-container { width: 100%; height: 400px; border: 1px solid #ddd; border-radius: 4px; }' > src/styles/map-styles.css; \
     fi
 
+# Update API service to use environment variable
+RUN if [ -f src/services/api.ts ]; then \
+    sed -i 's|const API_BASE_URL = .*|const API_BASE_URL = process.env.REACT_APP_API_URL || "/api";|g' src/services/api.ts; \
+    fi
+
 # Build the app
 RUN npm run build
 
-# Production stage
+# Production stage - simple static file server
 FROM nginx:alpine
-# Copy built app
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Install curl for healthcheck
-RUN apk add --no-cache curl
-
-# Add nginx configuration - Fix to include a static configuration instead of dynamic hostname
+# Simplified nginx config that doesn't need to proxy to backend
 RUN echo 'server { \
     listen 80; \
     listen [::]:80; \
     server_name localhost; \
     \
-    # Enable CORS \
-    add_header Access-Control-Allow-Origin "*"; \
-    add_header Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"; \
-    add_header Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"; \
-    \
     location / { \
     root /usr/share/nginx/html; \
     index index.html; \
     try_files $uri $uri/ /index.html; \
-    } \
-    \
-    # Use IP address directly instead of hostname for backend \
-    location /api { \
-    proxy_pass http://172.18.0.3:8080/api; \
-    proxy_http_version 1.1; \
-    proxy_set_header Host $host; \
-    proxy_set_header X-Real-IP $remote_addr; \
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for; \
-    proxy_set_header X-Forwarded-Proto $scheme; \
     } \
     \
     # Health check endpoint \
@@ -68,11 +57,5 @@ RUN echo 'server { \
     } \
     }' > /etc/nginx/conf.d/default.conf
 
-# Create a basic health check script
-RUN echo '#!/bin/sh\n\
-    curl -f http://localhost/health || exit 1' > /healthcheck.sh && \
-    chmod +x /healthcheck.sh
-
 EXPOSE 80
-HEALTHCHECK --interval=5s --timeout=3s --retries=3 CMD ["/healthcheck.sh"]
 CMD ["nginx", "-g", "daemon off;"]
