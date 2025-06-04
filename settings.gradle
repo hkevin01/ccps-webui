@@ -5,6 +5,7 @@ pluginManagement {
         mavenCentral()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
@@ -12,15 +13,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = 'clr-webui'
 
 // Explicitly define the backend project and its location
 include 'backend'
 project(':backend').projectDir = file('backend')
-
-// Fix toolchain management syntax
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
-}
