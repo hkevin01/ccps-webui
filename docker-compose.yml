@@ -15,12 +15,14 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - clr-network
 
   backend:
     build:
       context: .
       dockerfile: docker/Dockerfile.backend
-    container_name: clr-webui-backend
+    container_name: backend
     ports:
       - "8080:8080"
     environment:
@@ -52,14 +54,15 @@ services:
     networks:
       - clr-network
 
-  # Add the missing frontend service
   frontend:
     build:
       context: .
       dockerfile: docker/Dockerfile.frontend
-    container_name: clr-webui-frontend
+    container_name: frontend
+    # Try both port mappings to ensure accessibility
     ports:
-      - "3000:80"  # Map container port 80 to host port 3000
+      - "3000:80"
+      - "80:80"  # Also expose on default HTTP port
     environment:
       - NODE_ENV=production
     depends_on:

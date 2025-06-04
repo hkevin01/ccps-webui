@@ -7,6 +7,13 @@ plugins {
 group = 'com.clr'
 version = '1.0.0'
 
+// Add Java toolchain configuration here
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 subprojects {
     apply plugin: 'java'
 

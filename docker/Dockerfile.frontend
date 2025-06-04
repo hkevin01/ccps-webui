@@ -4,26 +4,24 @@ WORKDIR /app
 
 # Copy package files first for better layer caching
 COPY frontend/package.json ./
-COPY frontend/package-lock.json* ./
 
-# Install dependencies with specific versions
+# Install dependencies with specific versions that are compatible with Node 18
 RUN npm install && \
-    npm install --save react-router-dom@6.20.1 chart.js@4.4.1 react-chartjs-2@5.2.0 ol@7.5.1 proj4@2.9.2
+    npm install --save react-router-dom@6.20.1 chart.js@4.4.1 react-chartjs-2@5.2.0 && \
+    npm install --save ol@7.5.1 ol-layerswitcher@4.1.1 proj4@2.9.2
 
 # Copy source code after dependencies are installed
 COPY frontend/src ./src
 COPY frontend/public ./public
 COPY frontend/tsconfig.json ./tsconfig.json
 
-# Create styles directory for OpenLayers CSS
+# Create styles directory for OpenLayers CSS if it doesn't exist
 RUN mkdir -p src/styles && \
+    if [ ! -f src/styles/map-styles.css ]; then \
     echo '@import "ol/ol.css"; \
-    .map-container { \
-    width: 100%; \
-    height: 400px; \
-    border: 1px solid #ddd; \
-    border-radius: 4px; \
-    }' > src/styles/map-styles.css
+    @import "ol-layerswitcher/dist/ol-layerswitcher.css"; \
+    .map-container { width: 100%; height: 400px; border: 1px solid #ddd; border-radius: 4px; }' > src/styles/map-styles.css; \
+    fi
 
 # Build the app
 RUN npm run build
@@ -33,7 +31,10 @@ FROM nginx:alpine
 # Copy built app
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Add nginx configuration with proper service name
+# Install curl for healthcheck
+RUN apk add --no-cache curl
+
+# Add nginx configuration with correct hostname for backend
 RUN echo 'server { \
     listen 80; \
     listen [::]:80; \
@@ -50,9 +51,9 @@ RUN echo 'server { \
     try_files $uri $uri/ /index.html; \
     } \
     \
-    # Proxy API requests to backend using the service name from docker-compose.yml \
+    # Proxy API requests to backend \
     location /api { \
-    proxy_pass http://clr-webui-backend:8080/api; \
+    proxy_pass http://backend:8080/api; \
     proxy_http_version 1.1; \
     proxy_set_header Host $host; \
     proxy_set_header X-Real-IP $remote_addr; \

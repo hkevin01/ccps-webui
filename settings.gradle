@@ -18,11 +18,9 @@ rootProject.name = 'clr-webui'
 include 'backend'
 project(':backend').projectDir = file('backend')
 
-toolchainManagement {
-    jvm {
-        javaRepositories {
-            mavenCentral()
-            // Add others if needed
-        }
+// Fix toolchain management syntax
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
