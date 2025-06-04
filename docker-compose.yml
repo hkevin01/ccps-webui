@@ -49,7 +49,10 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    networks:
+      - clr-network
 
+  # Add the missing frontend service
   frontend:
     build:
       context: .
@@ -67,9 +70,13 @@ services:
       interval: 20s
       timeout: 5s
       retries: 3
+    networks:
+      - clr-network
 
 networks:
   default:
+    driver: bridge
+  clr-network:
     driver: bridge
 
 volumes:

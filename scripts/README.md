@@ -1,59 +1,40 @@
 # Scripts Directory
 
 This folder contains utility scripts for building, running, and managing the clr-webui project.
+The scripts are organized into logical subfolders for better maintainability.
 
-## Available Scripts
+## Directory Structure
 
-### Core Scripts
+- **Top Level**: Main entry point scripts
+  - `run-stack.sh`: Main script to build and run the full stack
+  - Symlinks to frequently used scripts for backward compatibility
 
-- **run-stack.sh**  
-  Builds the backend and frontend, sets up permissions, validates environment variables, and starts all services (backend, frontend, database) using Docker Compose.
+- **docker/**: Docker-related scripts
+  - `fix-network.sh`: Fixes Docker network issues
+  - `fix-docker-issues.sh`: Diagnoses and fixes Docker-related issues
+  - `fix-docker-config.sh`: Fixes Docker configuration issues
+  - `stop-services.sh`: Stops all Docker services
+  - `restart-docker.sh`: Restarts Docker services with clean state
 
-- **stop-services.sh**  
-  Stops all Docker services gracefully and provides status information.
-  ```bash
-  ./scripts/stop-services.sh
-  ```
+- **build/**: Build-related scripts
+  - `build-backend-jar.sh`: Builds the backend Spring Boot JAR
+  - `fix-frontend-deps.sh`: Fixes frontend dependencies
 
-- **build-backend-jar.sh**  
-  Builds the backend Spring Boot JAR (`app.jar`) in `backend/build/libs` using Gradle.  
-  ```bash
-  ./scripts/build-backend-jar.sh
-  ```
+- **dev/**: Development environment scripts
+  - `setup-vscode.sh`: Sets up VS Code with optimal settings
+  - `log-vscode-problems.sh`: Logs and examines VS Code/Gradle problems
+  - `fix-java-build-env.sh`: Fixes Java build environment issues
 
-### Environment Setup
-
-- **setup-vscode.sh**  
-  Sets up VS Code with optimal settings for Java and Gradle development, installs recommended extensions, and configures debugging.
-  ```bash
-  ./scripts/setup-vscode.sh
-  ```
-
-- **fix-frontend-deps.sh**  
-  Installs and fixes frontend dependencies, especially for maps integration (OpenLayers, Google Maps).
-  ```bash
-  ./scripts/fix-frontend-deps.sh
-  ```
-
-- **install-lombok.sh**  
-  Installs Lombok for local development.
-
-- **fix-java-build-env.sh**  
-  Fixes Java build environment issues (permissions, paths, etc).
-
-### Diagnostic Scripts
-
-- **log-vscode-problems.sh**  
-  Logs and examines all problems reported by VS Code and Gradle.
-  ```bash
-  ./scripts/log-vscode-problems.sh
-  ```
+- **utils/**: Utility scripts
+  - Various utility scripts for common tasks
 
 ## Usage
 
 Run any script from the project root, for example:
 ```bash
 ./scripts/run-stack.sh
+# or
+./scripts/docker/restart-docker.sh
 ```
 
 ## Workflow Examples
@@ -61,10 +42,10 @@ Run any script from the project root, for example:
 ### Start Development Environment
 ```bash
 # Set up VS Code first
-./scripts/setup-vscode.sh
+./scripts/dev/setup-vscode.sh
 
 # Install dependencies and fix common issues
-./scripts/fix-frontend-deps.sh
+./scripts/build/fix-frontend-deps.sh
 
 # Start the full stack
 ./scripts/run-stack.sh
@@ -73,15 +54,14 @@ Run any script from the project root, for example:
 ### Stop and Clean Up
 ```bash
 # Stop all services
-./scripts/stop-services.sh
+./scripts/docker/stop-services.sh
 
 # Optionally run Docker cleanup
 docker system prune -f
-docker volume prune -f
 ```
 
 ## Notes
 
-- All scripts assume you are running from the project root.
+- All scripts should be run from the project root directory.
 - The backend JAR is always expected at `backend/build/libs/app.jar` for Docker deployment.
 - See the main project README for more details.
