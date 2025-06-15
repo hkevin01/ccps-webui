@@ -48,3 +48,163 @@
   bottom: 0;
   right: 0;
 }
+
+/* Popup styling */
+.ol-popup {
+  position: absolute;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #cccccc;
+  bottom: 12px;
+  left: -50px;
+  min-width: 280px;
+  z-index: 1000;
+  display: none;
+}
+
+.ol-popup:after,
+.ol-popup:before {
+  top: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+
+.ol-popup:after {
+  border-top-color: white;
+  border-width: 10px;
+  left: 48px;
+  margin-left: -10px;
+}
+
+.ol-popup:before {
+  border-top-color: #cccccc;
+  border-width: 11px;
+  left: 48px;
+  margin-left: -11px;
+}
+
+.ol-popup.visible {
+  display: block;
+}
+
+.popup-content h5 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #0d6efd;
+}
+
+.popup-content p {
+  margin-bottom: 0.3rem;
+}
+
+/* Visualization control */
+.viz-control {
+  top: 5.5em;
+  right: .5em;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 4px;
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.viz-control button {
+  margin: 2px;
+  padding: 4px 8px;
+  background-color: rgba(0, 60, 136, 0.5);
+  color: white;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.viz-control button:hover {
+  background-color: rgba(0, 60, 136, 0.7);
+}
+
+.viz-control button.active {
+  background-color: rgba(0, 60, 136, 0.9);
+}
+
+/* Map legend - position at bottom left */
+.map-legend {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 8px 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  font-size: 0.8rem;
+}
+
+.map-legend h6 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  border-radius: 50%;
+}
+
+.legend-label {
+  font-size: 0.75rem;
+}
+
+/* Debug panel for layer testing */
+.debug-panel {
+  top: 10.5em;
+  right: .5em;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.layer-debug-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  max-width: 80%;
+}
+
+.layer-debug-panel h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.layer-debug-panel div {
+  margin-bottom: 5px;
+}
+
+.layer-debug-panel button {
+  margin-top: 15px;
+  padding: 5px 10px;
+}
+
+/* Fix USGS layer visibility */
+.ol-layer canvas {
+  image-rendering: auto !important;
+}
