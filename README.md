@@ -1,4 +1,7 @@
+<!--
 [![Build Status](https://github.com/hkevin01/ccps-webui/actions/workflows/main.yml/badge.svg)](https://github.com/hkevin01/ccps-webui/actions)
+-->
+<!-- Build status badge is currently disabled. Enable by adding a GitHub Actions workflow in .github/workflows/ -->
 [![License](https://img.shields.io/github/license/hkevin01/ccps-webui)](LICENSE)
 [![Issues](https://img.shields.io/github/issues/hkevin01/ccps-webui)](https://github.com/hkevin01/ccps-webui/issues)
 [![Pull Requests](https://img.shields.io/github/issues-pr/hkevin01/ccps-webui)](https://github.com/hkevin01/ccps-webui/pulls)
