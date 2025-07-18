@@ -1,3 +1,9 @@
+[![Build Status](https://github.com/hkevin01/ccps-webui/actions/workflows/main.yml/badge.svg)](https://github.com/hkevin01/ccps-webui/actions)
+[![License](https://img.shields.io/github/license/hkevin01/ccps-webui)](LICENSE)
+[![Issues](https://img.shields.io/github/issues/hkevin01/ccps-webui)](https://github.com/hkevin01/ccps-webui/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/hkevin01/ccps-webui)](https://github.com/hkevin01/ccps-webui/pulls)
+[![Last Commit](https://img.shields.io/github/last-commit/hkevin01/ccps-webui)](https://github.com/hkevin01/ccps-webui/commits/main)
+
 # ccps-webui
 
 Monorepo for the Coastal Change Prediction System.  
