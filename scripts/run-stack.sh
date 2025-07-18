@@ -114,9 +114,9 @@ fi
 #######################################
 # 4. Validate and Export Environment Variables #
 #######################################
-export SPRING_DATASOURCE_URL="${SPRING_DATASOURCE_URL:-jdbc:mysql://localhost:3306/clrdb}"
-export SPRING_DATASOURCE_USERNAME="${SPRING_DATASOURCE_USERNAME:-clruser}"
-export SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD:-clrpass}"
+export SPRING_DATASOURCE_URL="${SPRING_DATASOURCE_URL:-jdbc:mysql://localhost:3306/ccpsdb}"
+export SPRING_DATASOURCE_USERNAME="${SPRING_DATASOURCE_USERNAME:-ccpsuser}"
+export SPRING_DATASOURCE_PASSWORD="${SPRING_DATASOURCE_PASSWORD:-ccpspass}"
 
 if [ -z "$SPRING_DATASOURCE_URL" ] || [ -z "$SPRING_DATASOURCE_USERNAME" ] || [ -z "$SPRING_DATASOURCE_PASSWORD" ]; then
     echo "Error: Missing required environment variables for database connection."
@@ -139,7 +139,7 @@ if [ "$APP_COUNT" -gt 1 ]; then
     echo "Warning: Multiple Spring Boot application classes detected:"
     echo "$SPRING_CLASSES"
     echo "Please ensure only one @SpringBootApplication class exists in the backend."
-    echo "Example: Keep ClrBackendApplication.java and remove or refactor ClrWebuiApplication.java."
+    echo "Example: Keep CcpsBackendApplication.java and remove or refactor CcpsWebuiApplication.java."
 else
     echo "Single Spring Boot application class detected. Proceeding..."
 fi
@@ -268,9 +268,9 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: clrdb
-      MYSQL_USER: clruser
-      MYSQL_PASSWORD: clrpass
+      MYSQL_DATABASE: ccpsdb
+      MYSQL_USER: ccpsuser
+      MYSQL_PASSWORD: ccpspass
     ports:
       - "3306:3306"
     volumes:
@@ -289,9 +289,9 @@ services:
       mysql:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/clrdb
-      SPRING_DATASOURCE_USERNAME: clruser
-      SPRING_DATASOURCE_PASSWORD: clrpass
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/ccpsdb
+      SPRING_DATASOURCE_USERNAME: ccpsuser
+      SPRING_DATASOURCE_PASSWORD: ccpspass
     ports:
       - "8080:8080"
 
@@ -313,10 +313,10 @@ fi
 #############################################
 # 10. Additional Spring Boot Application Check #
 #############################################
-if [ -f backend/src/main/java/com/clr/ClrBackendApplication.java ] && [ -f backend/src/main/java/com/clr/ClrWebuiApplication.java ]; then
+if [ -f backend/src/main/java/com/ccps/CcpsBackendApplication.java ] && [ -f backend/src/main/java/com/ccps/CcpsWebuiApplication.java ]; then
     echo "Warning: Multiple Spring Boot application classes detected in backend:"
-    echo " - backend/src/main/java/com/clr/ClrBackendApplication.java"
-    echo " - backend/src/main/java/com/clr/ClrWebuiApplication.java"
+    echo " - backend/src/main/java/com/ccps/CcpsBackendApplication.java"
+    echo " - backend/src/main/java/com/ccps/CcpsWebuiApplication.java"
     echo "Ensure only one @SpringBootApplication class exists."
 fi
 
@@ -374,7 +374,7 @@ echo "------------------------------------------------------------"
 echo "All services are running in Docker Compose."
 echo "Backend:   http://localhost:8080"
 echo "Frontend:  http://localhost:3000"
-echo "Database:  MySQL on localhost:3306 (user: clruser, pass: clrpass, db: clrdb)"
+echo "Database:  MySQL on localhost:3306 (user: ccpsuser, pass: ccpspass, db: ccpsdb)"
 echo "------------------------------------------------------------"
 
 # Automatically open the frontend in Firefox, if available.

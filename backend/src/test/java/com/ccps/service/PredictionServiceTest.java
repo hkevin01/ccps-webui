@@ -1,15 +1,14 @@
 package com.clr.service;
 
-import com.clr.model.CoastalData;
-import com.clr.model.PredictionResult;
-import com.clr.service.PredictionService;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import com.clr.model.CoastalData;
+import com.clr.model.PredictionResult;
+import com.clr.service.PredictionService;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest(classes = com.clr.ClrBackendApplication.class)
+@SpringBootTest(classes = com.ccps.CcpsBackendApplication.class)
 class PredictionServiceTest {
 
     @Autowired

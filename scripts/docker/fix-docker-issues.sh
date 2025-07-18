@@ -27,10 +27,10 @@ $COMPOSE_CMD down 2>/dev/null || echo "No containers were running."
 # Step 3: Clean up Docker resources
 echo "Step 3: Cleaning up Docker resources..."
 echo "Removing project containers..."
-docker ps -a --filter "name=clr-webui" -q | xargs docker rm -f 2>/dev/null || echo "No containers to remove."
+docker ps -a --filter "name=ccps-webui" -q | xargs docker rm -f 2>/dev/null || echo "No containers to remove."
 
 echo "Removing project networks..."
-docker network ls --filter "name=clr-webui" -q | xargs docker network rm 2>/dev/null || echo "No networks to remove."
+docker network ls --filter "name=ccps-webui" -q | xargs docker network rm 2>/dev/null || echo "No networks to remove."
 
 echo "Removing dangling images..."
 docker image prune -f

@@ -66,10 +66,10 @@ cat > .vscode/launch.json << 'EOF'
   "configurations": [
     {
       "type": "java",
-      "name": "Spring Boot-ClrBackendApplication",
+      "name": "Spring Boot-CcpsBackendApplication",
       "request": "launch",
       "cwd": "${workspaceFolder}",
-      "mainClass": "com.clr.ClrBackendApplication",
+      "mainClass": "com.ccps.CcpsBackendApplication",
       "projectName": "backend",
       "args": "",
       "envFile": "${workspaceFolder}/.env",
@@ -102,7 +102,7 @@ fi
 if [ ! -f "settings.gradle" ]; then
     echo "Creating settings.gradle..."
     cat > settings.gradle << 'EOF'
-rootProject.name = 'clr-webui'
+rootProject.name = 'ccps-webui'
 include 'backend'
 EOF
     echo "Created settings.gradle"

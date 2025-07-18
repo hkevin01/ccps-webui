@@ -3,7 +3,7 @@
 
 set -e
 
-echo "Stopping all Docker services for CLR WebUI..."
+echo "Stopping all Docker services for CCPS WebUI..."
 
 # Check for docker compose
 if command -v docker-compose &> /dev/null; then

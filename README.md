@@ -1,4 +1,4 @@
-# clr-webui
+# ccps-webui
 
 Monorepo for the Coastal Change Prediction System.  
 Contains backend (Spring Boot), frontend (React), and deployment scripts.
@@ -51,8 +51,8 @@ A full-stack application for predicting and visualizing the likelihood of coasta
 - Run: `npm install && npm start` in `frontend/`
 
 ## Database Setup
-- Create a PostgreSQL database named `clrdb`.
-- Create a user `clruser` with password `clrpass` and grant permissions.
+- Create a PostgreSQL database named `ccpsdb`.
+- Create a user `ccpsuser` with password `ccpspass` and grant permissions.
 - The backend will auto-generate schema with `spring.jpa.hibernate.ddl-auto=update`.
 
 ## Docker

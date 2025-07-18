@@ -32,28 +32,28 @@ echo "Current container status:"
 $COMPOSE_CMD ps
 
 # Check if the frontend container is running
-if container_running "clr-webui-frontend-1"; then
+if container_running "ccps-webui-frontend-1"; then
     echo "Frontend container is running. Checking configuration..."
     
     # Check port mapping
-    PORT_MAPPING=$(docker port clr-webui-frontend-1 80)
+    PORT_MAPPING=$(docker port ccps-webui-frontend-1 80)
     echo "Port mapping: $PORT_MAPPING"
     
     # Check if the container is healthy
-    HEALTH_STATUS=$(docker inspect --format='{{.State.Health.Status}}' clr-webui-frontend-1 2>/dev/null || echo "No health check")
+    HEALTH_STATUS=$(docker inspect --format='{{.State.Health.Status}}' ccps-webui-frontend-1 2>/dev/null || echo "No health check")
     echo "Health status: $HEALTH_STATUS"
     
     # Check if the nginx process is running in the container
     echo "Checking nginx process:"
-    docker exec clr-webui-frontend-1 ps aux | grep nginx || echo "Nginx not found"
+    docker exec ccps-webui-frontend-1 ps aux | grep nginx || echo "Nginx not found"
     
     # Test the nginx configuration
     echo "Testing nginx configuration:"
-    docker exec clr-webui-frontend-1 nginx -t 2>&1 || echo "Nginx configuration test failed"
+    docker exec ccps-webui-frontend-1 nginx -t 2>&1 || echo "Nginx configuration test failed"
     
     # Check connectivity from inside the container
     echo "Testing internal connectivity:"
-    docker exec clr-webui-frontend-1 curl -s http://localhost/health || echo "Internal connectivity failed"
+    docker exec ccps-webui-frontend-1 curl -s http://localhost/health || echo "Internal connectivity failed"
     
     # Restart the frontend container
     echo "Restarting frontend container..."
@@ -72,10 +72,10 @@ else
 fi
 
 echo "Network diagnostics completed. If you're still having issues:"
-echo "1. Try running: docker network inspect clr-webui_default"
+echo "1. Try running: docker network inspect ccps-webui_default"
 echo "2. Check if port 3000 is already in use: lsof -i :3000"
 echo "3. Try changing the frontend port in docker-compose.yml, e.g. to 3001:80"
 echo "4. Restart Docker with: sudo systemctl restart docker"
 echo "5. Run the full stack again: ./scripts/run-stack.sh"
 
-chmod +x /home/kevin/Projects/clr-webui/scripts/fix-network.sh
+chmod +x /home/kevin/Projects/ccps-webui/scripts/fix-network.sh

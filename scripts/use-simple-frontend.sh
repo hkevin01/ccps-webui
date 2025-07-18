@@ -93,4 +93,4 @@ echo ""
 echo "IMPORTANT: The frontend now expects the backend to be accessible at http://localhost:8080/api"
 echo "Make sure the backend is running and exposed at that address."
 
-chmod +x /home/kevin/Projects/clr-webui/scripts/use-simple-frontend.sh
+chmod +x /home/kevin/Projects/ccps-webui/scripts/use-simple-frontend.sh

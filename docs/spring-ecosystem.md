@@ -1,6 +1,6 @@
 # Spring Ecosystem Overview
 
-This document provides an overview of the primary Spring Framework components used in the CLR WebUI backend: Spring Boot, Spring Security, and Spring Data JPA.
+This document provides an overview of the primary Spring Framework components used in the CCPS WebUI backend: Spring Boot, Spring Security, and Spring Data JPA.
 
 ## Spring Boot
 
@@ -30,9 +30,9 @@ Spring Boot uses "starter" dependencies that bundle related dependencies togethe
 
 ### How Spring Boot Works in Our Project
 
-In the CLR WebUI project, Spring Boot:
+In the CCPS WebUI project, Spring Boot:
 
-1. Bootstraps the application through `ClrBackendApplication.java`
+1. Bootstraps the application through `CcpsBackendApplication.java`
 2. Configures the embedded Tomcat server and exposes our REST API
 3. Connects to the database using properties from `application.properties`/`application.yml`
 4. Provides health and monitoring endpoints through Actuator
@@ -61,7 +61,7 @@ Spring Security is a powerful and customizable authentication and authorization 
 
 ### How Spring Security Works in Our Project
 
-In the CLR WebUI project, Spring Security:
+In the CCPS WebUI project, Spring Security:
 
 1. Secures REST endpoints based on roles and permissions
 2. Manages user authentication (likely JWT-based for API access)
@@ -115,7 +115,7 @@ Spring Data JPA is part of the larger Spring Data family. It makes it easy to im
 
 ### How Spring Data JPA Works in Our Project
 
-In the CLR WebUI project, Spring Data JPA:
+In the CCPS WebUI project, Spring Data JPA:
 
 1. Provides repository interfaces for all our domain entities
 2. Manages database connections and transaction boundaries
@@ -147,7 +147,7 @@ public interface CoastalDataRepository extends JpaRepository<CoastalData, Long> 
 
 ## Spring Boot, Security, and Data JPA Together
 
-These three technologies work together in the CLR WebUI backend to:
+These three technologies work together in the CCPS WebUI backend to:
 
 1. **Spring Boot** provides the application framework and configuration
 2. **Spring Security** protects the APIs and handles authentication

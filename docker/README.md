@@ -7,6 +7,6 @@ Dockerfiles for backend and frontend containers.
 Build images:
 
 ```bash
-docker build -t clr-backend -f docker/Dockerfile.backend .
-docker build -t clr-frontend -f docker/Dockerfile.frontend .
+docker build -t ccps-backend -f docker/Dockerfile.backend .
+docker build -t ccps-frontend -f docker/Dockerfile.frontend .
 ```

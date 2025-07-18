@@ -1,6 +1,6 @@
 # Scripts Directory
 
-This folder contains utility scripts for building, running, and managing the clr-webui project.
+This folder contains utility scripts for building, running, and managing the ccps-webui project.
 The scripts are organized into logical subfolders for better maintainability.
 
 ## Directory Structure

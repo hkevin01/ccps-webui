@@ -81,7 +81,7 @@ RUN echo 'server { \
     \
     # Proxy API requests to backend using the service name from docker-compose.yml \
     location /api { \
-        proxy_pass http://clr-webui-backend:8080/api; \
+        proxy_pass http://ccps-webui-backend:8080/api; \
         proxy_http_version 1.1; \
         proxy_set_header Host $host; \
         proxy_set_header X-Real-IP $remote_addr; \
@@ -108,8 +108,8 @@ EOF
 
 echo "Updating Docker network configuration in docker-compose.yml..."
 # Make sure both containers are on the same network
-sed -i 's/container_name: clr-webui-backend/container_name: clr-webui-backend\n    networks:\n      - clr-network/' docker-compose.yml
-sed -i 's/container_name: clr-webui-frontend/container_name: clr-webui-frontend\n    networks:\n      - clr-network/' docker-compose.yml
+sed -i 's/container_name: ccps-webui-backend/container_name: ccps-webui-backend\n    networks:\n      - ccps-network/' docker-compose.yml
+sed -i 's/container_name: ccps-webui-frontend/container_name: ccps-webui-frontend\n    networks:\n      - ccps-network/' docker-compose.yml
 
 # Update networks section
 sed -i '/networks:/,$d' docker-compose.yml
@@ -117,7 +117,7 @@ cat >> docker-compose.yml << 'EOF'
 networks:
   default:
     driver: bridge
-  clr-network:
+  ccps-network:
     driver: bridge
 
 volumes:
@@ -143,4 +143,4 @@ echo "Testing frontend connectivity..."
 curl -v http://localhost:3000/health 2>&1 | grep "200 OK" && echo "Frontend is accessible!" || echo "Frontend is not accessible!"
 
 echo "Configuration fix complete. Try accessing the frontend at http://localhost:3000"
-chmod +x /home/kevin/Projects/clr-webui/scripts/fix-docker-config.sh
+chmod +x /home/kevin/Projects/ccps-webui/scripts/fix-docker-config.sh

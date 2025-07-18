@@ -81,8 +81,8 @@ echo "=== Network Diagnostics ==="
 echo "Docker networks:"
 docker network ls
 
-echo "Network inspection for clr-network:"
-docker network inspect clr-network
+echo "Network inspection for ccps-network:"
+docker network inspect ccps-network
 
 echo "If you still can't connect to the frontend, try:"
 echo "1. Make sure no other service is using port 3000"
@@ -92,4 +92,4 @@ echo "4. Access the frontend directly from the container: docker exec -it fronte
 echo "5. Try a different browser or incognito window"
 
 # Make script executable
-chmod +x /home/kevin/Projects/clr-webui/scripts/docker/fix-connection-issue.sh
+chmod +x /home/kevin/Projects/ccps-webui/scripts/docker/fix-connection-issue.sh

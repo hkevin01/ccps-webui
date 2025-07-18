@@ -1,12 +1,10 @@
 package com.clr.controller;
 
-import com.clr.ClrBackendApplication;
-import com.clr.model.CoastalData;
-import com.clr.model.PredictionResult;
-import com.clr.service.PredictionService;
-import com.clr.repository.CoastalDataRepository;
-import com.clr.repository.PredictionResultRepository;
-import com.clr.service.PredictionService;
+import static org.mockito.ArgumentMatchers.any;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import java.util.Collections;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +13,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import com.clr.model.CoastalData;
+import com.clr.model.PredictionResult;
+import com.clr.repository.CoastalDataRepository;
+import com.clr.repository.PredictionResultRepository;
+import com.clr.service.PredictionService;
 
-import java.util.Collections;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-@SpringBootTest(classes = com.clr.ClrBackendApplication.class)
+@SpringBootTest(classes = com.ccps.CcpsBackendApplication.class)
 class CoastControllerTest {
 
     @Autowired

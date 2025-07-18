@@ -85,4 +85,4 @@ $COMPOSE_CMD up -d --build
 echo "Port conflict fix complete!"
 echo "The frontend should now be accessible at http://localhost:3000"
 
-chmod +x /home/kevin/Projects/clr-webui/scripts/docker/fix-port-conflict.sh
+chmod +x /home/kevin/Projects/ccps-webui/scripts/docker/fix-port-conflict.sh

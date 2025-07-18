@@ -38,7 +38,7 @@ if [ "$BACKEND_RUNNING" -eq "0" ]; then
     $COMPOSE_CMD logs backend | grep -i "error\|exception\|failed"
     
     echo "Checking PostgreSQL connection..."
-    $COMPOSE_CMD exec postgres pg_isready -U clruser || echo "PostgreSQL is not ready or accessible"
+    $COMPOSE_CMD exec postgres pg_isready -U ccpsuser || echo "PostgreSQL is not ready or accessible"
 fi
 
 echo "To restart the stack, run: docker compose down && docker compose up -d"

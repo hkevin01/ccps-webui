@@ -23,7 +23,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'clr-webui'
+rootProject.name = 'ccps-webui'
 include 'backend'
 project(':backend').projectDir = file('backend')
 
@@ -72,4 +72,4 @@ rm -rf ~/.gradle/caches/modules-2/files-2.1/org.gradle* || true
 echo "Gradle configuration fix complete!"
 echo "You should now be able to build with: ./gradlew clean build"
 
-chmod +x /home/kevin/Projects/clr-webui/scripts/fix-gradle-config.sh
+chmod +x /home/kevin/Projects/ccps-webui/scripts/fix-gradle-config.sh

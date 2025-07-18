@@ -96,4 +96,4 @@ else
     fi
 fi
 
-chmod +x /home/kevin/Projects/clr-webui/scripts/docker/fix-dns-issue.sh
+chmod +x /home/kevin/Projects/ccps-webui/scripts/docker/fix-dns-issue.sh

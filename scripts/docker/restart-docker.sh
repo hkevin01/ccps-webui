@@ -46,4 +46,4 @@ echo "Services restarted. You can access:"
 echo "- Backend: http://localhost:8080"
 echo "- Frontend: http://localhost:3000"
 
-chmod +x /home/kevin/Projects/clr-webui/scripts/restart-docker.sh
+chmod +x /home/kevin/Projects/ccps-webui/scripts/restart-docker.sh

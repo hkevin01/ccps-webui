@@ -1,6 +1,6 @@
 # Lombok and H2 Database
 
-This document explains two important tools used in the CLR WebUI backend: Lombok for reducing boilerplate code and H2 for testing.
+This document explains two important tools used in the CCPS WebUI backend: Lombok for reducing boilerplate code and H2 for testing.
 
 ## Project Lombok
 
@@ -192,7 +192,7 @@ public class PredictionRequestDTO {
 
 ### How Lombok Works in Our Project
 
-In the CLR WebUI project, we use Lombok to:
+In the CCPS WebUI project, we use Lombok to:
 
 1. Keep our JPA entity classes clean and focused on their structure
 2. Simplify service implementations with logging
